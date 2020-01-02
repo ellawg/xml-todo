@@ -1,0 +1,112 @@
+<header>
+    <h2>Task tracker</h2>
+</header>
+<div class="container">
+    <h2> Keep track of all your tasks! </h2>
+    <div class="row">
+        <div class="col-4">
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a href="/" class="nav-link">All Tasks</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/today" class="nav-link">Due Today</a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link" data-toggle="collapse" data-target="#collapseCategories"
+                        aria-expanded="false" aria-controls="collapseCategories">Categories</a>
+                    <div class="collapse" id="collapseCategories">
+                        <div class="card card-body">
+                            {{#each categories}}
+                            <div class="row">
+                                <div class="col-sm">
+                                    <a class="dropdown-item" href="/categories/{{id}}">{{category}}</a>
+                                </div>
+                                <div class="col-sm">
+                                    <form action="/deletecategory" method="post">
+                                        <input hidden value="{{id}}" name="id" />
+                                        <button type="submit" class="btn btn-primary">x</button>
+                                    </form>
+                                </div>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link" data-toggle="collapse" data-target="#collapseCatForm"
+                        aria-expanded="false" aria-controls="collapseCatForm">Add category</a>
+                    <div class="collapse" id="collapseCatForm">
+                        <div class="card card-body">
+                            <form action="/addcategory" method="post">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="category"
+                                        placeholder="Enter category name">
+                                </div>
+                                <button class="form-control" type="submit">Add category</button>
+                            </form>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-8">
+            <h2>{{active}}</h2>
+            {{#if empty}}
+            No Todos found.
+            {{/if}}
+            {{#each todos}}
+            <div class="row">
+                <div class="col-sm" data-toggle="collapse" data-target="#collapse{{id}}" aria-expanded="false"
+                    aria-controls="collapse{{id}}">
+                    <form action="/delete" method="post">
+                        <p>{{task}}</p>
+                        <input hidden value="{{id}}" name="id" />
+                </div>
+                <div class="col-sm">
+                    <button type="submit" class="btn btn-primary">x</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="collapse" id="collapse{{id}}">
+                <div class="card card-body">
+                    <p>Note: {{note}}</p>
+                    <p>Due: {{due}}</p>
+                    <p>Created: {{created}}</p>
+                </div>
+            </div>
+
+            {{/each}}
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseTaskForm"
+                aria-expanded="false" aria-controls="collapseTaskForm">
+                Add task
+            </button>
+            <div class="collapse" id="collapseTaskForm">
+                <div class="card card-body">
+                    <form action="/add" method="post">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="task" placeholder="add new task">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="note" class="form-control" placeholder="enter task note">
+                        </div>
+                        <div class="form-group">
+                            <select name="category" class="custom-select">
+                                {{#each categories}}
+                                <option value="{{id}}">{{category}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="datetime-local" name="due" placeholder="2018-06-12T19:30"
+                                min="2018-06-07T00:00" max="2025-06-14T00:00">
+                        </div>
+                        <button class="form-control" type="submit">Add task</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
