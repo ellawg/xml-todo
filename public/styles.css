@@ -1,0 +1,28 @@
+header {
+  padding: 40px 0;
+}
+
+.completed-todos p {
+  text-decoration: line-through;
+}
+
+.category-row {
+  margin: 5px 0;
+}
+
+.tasks {
+  margin: 20px 0;
+}
+
+.task-btn {
+  width: 40px;
+  margin: 0 5px;
+}
+
+.task-row {
+  margin: 0 5px 0 5px;
+}
+
+.card p {
+  margin: 0;
+}

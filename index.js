@@ -28,7 +28,8 @@ const insertTodo = obj => {
       note: obj.note,
       category: obj.category,
       due: new Date(obj.due),
-      created: new Date()
+      created: new Date(),
+      completed: false
     });
 };
 
@@ -39,12 +40,26 @@ const insertCategory = obj => {
     .set(obj);
 };
 
-// delete todo into firebase db
+// delete todo on firebase db
 const deleteTodo = id => {
   return db
     .collection("todos")
     .doc(id)
     .delete();
+};
+
+const completeTodo = id => {
+  return db
+    .collection("todos")
+    .doc(id)
+    .update({ completed: true });
+};
+
+const unCompleteTodo = id => {
+  return db
+    .collection("todos")
+    .doc(id)
+    .update({ completed: false });
 };
 
 const deleteCategory = id => {
@@ -74,11 +89,13 @@ const getTodos = async () => {
           due: doc
             .data()
             .due.toDate()
-            .toUTCString(),
+            .toUTCString()
+            .slice(0, 22),
           created: doc
             .data()
             .created.toDate()
-            .toUTCString(),
+            .toUTCString()
+            .slice(0, 22),
           id: doc.id
         }
       });
@@ -106,11 +123,13 @@ const getCategories = async () => {
 app.get("/", async (req, res, next) => {
   // retrieve todos from the database
   const todos = await getTodos();
-  const categories = await getCategories();
+  let categories = await getCategories();
   res.render("home", {
+    redirect: "/",
     active: "All Tasks",
-    todos, // pass it to the template
-    empty: todos.lenght === 0,
+    todos: todos.filter(item => !item.completed),
+    completedTodos: todos.filter(item => item.completed),
+    empty: todos.filter(item => !item.completed).length === 0,
     categories
   });
 });
@@ -121,23 +140,29 @@ app.get("/categories/:id", async (req, res) => {
   const todosByCategory = todos.filter(item => item.category === req.params.id);
   const categoryName = helpers.getCategoryName(categories, req.params.id);
   res.render("home", {
+    redirect: "/categories/" + req.params.id,
     active: helpers.capitalize(categoryName),
-    todos: todosByCategory,
-    empty: todosByCategory.lenght === 0,
+    todos: todosByCategory.filter(item => !item.completed),
+    completedTodos: todosByCategory.filter(item => item.completed),
+    empty: todosByCategory.filter(item => !item.completed).length === 0,
     categories
   });
 });
 
 app.get("/today", async (req, res) => {
   const todos = await getTodos();
+  const todaysDate = new Date().toUTCString();
   const today = todos.filter(
-    todo => todo.due.slice(5, 16) === new Date().toUTCString().slice(5, 16)
+    todo => todo.due.slice(5, 16) === todaysDate.slice(5, 16)
   );
   const categories = await getCategories();
   res.render("home", {
+    redirect: "/today",
     active: "Today",
-    todos: today,
-    empty: today.lenght === 0,
+    todaysDate: todaysDate.slice(0, 16),
+    todos: today.filter(item => !item.completed),
+    completedTodos: today.filter(item => item.completed),
+    empty: today.filter(item => !item.completed).length === 0,
     categories
   });
 });
@@ -170,6 +195,24 @@ app.post("/delete", async (req, res) => {
   res.redirect("/");
 });
 
+app.post("/complete", async (req, res) => {
+  try {
+    await completeTodo(req.body.id);
+  } catch (error) {
+    res.status(503).send(error.message);
+  }
+  res.redirect(req.query.redirect);
+});
+
+app.post("/uncomplete", async (req, res) => {
+  try {
+    await unCompleteTodo(req.body.id);
+  } catch (error) {
+    res.status(503).send(error.message);
+  }
+  res.redirect(req.query.redirect);
+});
+
 app.post("/deletecategory", async (req, res) => {
   try {
     await deleteTodosByCategory(req.body.id);
@@ -184,6 +227,8 @@ app.post("/deletecategory", async (req, res) => {
 app.engine("hbs", hbs({ defaultLayout: "main", extname: ".hbs" }));
 
 app.set("view engine", "hbs");
+
+app.use(express.static("public"));
 
 app.listen(3000, () => {
   console.log("Listening on http://localhost:3000/");

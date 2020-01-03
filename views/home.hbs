@@ -1,16 +1,16 @@
-<header>
+<header class="text-center">
     <h2>Task tracker</h2>
+    <h3> Keep track of all your tasks! </h3>
 </header>
 <div class="container">
-    <h2> Keep track of all your tasks! </h2>
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col-4">
             <ul class="nav nav-pills flex-column">
                 <li class="nav-item">
                     <a href="/" class="nav-link">All Tasks</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/today" class="nav-link">Due Today</a>
+                    <a href="/today" class="nav-link">Today</a>
                 </li>
                 <li class="nav-item">
                     <a href="" class="nav-link" data-toggle="collapse" data-target="#collapseCategories"
@@ -18,14 +18,14 @@
                     <div class="collapse" id="collapseCategories">
                         <div class="card card-body">
                             {{#each categories}}
-                            <div class="row">
-                                <div class="col-sm">
+                            <div class="row category-row">
+                                <div class="col-9 d-flex align-items-center p-0">
                                     <a class="dropdown-item" href="/categories/{{id}}">{{category}}</a>
                                 </div>
-                                <div class="col-sm">
+                                <div class="col-3 d-flex flex-row justify-content-end align-items-center">
                                     <form action="/deletecategory" method="post">
                                         <input hidden value="{{id}}" name="id" />
-                                        <button type="submit" class="btn btn-primary">x</button>
+                                        <button type="submit" class="btn btn-primary">X</button>
                                     </form>
                                 </div>
                             </div>
@@ -51,34 +51,74 @@
             </ul>
         </div>
 
-        <div class="col-8">
+        <div class="col-6">
             <h2>{{active}}</h2>
+            <h5>{{todaysDate}}</h5>
             {{#if empty}}
-            No Todos found.
+            <h4>All tasks completed!</h4>
             {{/if}}
-            {{#each todos}}
-            <div class="row">
-                <div class="col-sm" data-toggle="collapse" data-target="#collapse{{id}}" aria-expanded="false"
-                    aria-controls="collapse{{id}}">
-                    <form action="/delete" method="post">
-                        <p>{{task}}</p>
-                        <input hidden value="{{id}}" name="id" />
-                </div>
-                <div class="col-sm">
-                    <button type="submit" class="btn btn-primary">x</button>
-                    </form>
-                </div>
-            </div>
+            <div class="accordion tasks" id="taskAccordion">
+                {{#each todos}}
+                <div class="card">
+                    <div class="row card-header" id="heading{{id}}">
+                        <div class="col-9 d-flex align-items-center" data-toggle="collapse"
+                            data-target="#collapse{{id}}" aria-expanded="false" aria-controls="collapse{{id}}">
+                            <form action="/delete" method="post">
+                                <p>{{task}}</p>
+                                <input hidden value="{{id}}" name="id" />
+                        </div>
+                        <div class="col-3 d-flex flex-row justify-content-end align-items-center">
+                            <button type="submit" class="btn btn-primary task-btn">X</button>
+                            </form>
+                            <form action="/complete?redirect={{../redirect}}" method="post">
+                                <input hidden value="{{id}}" name="id" />
+                                <button type="submit" class="btn btn-success task-btn">✓</button>
+                            </form>
+                        </div>
+                    </div>
 
-            <div class="collapse" id="collapse{{id}}">
-                <div class="card card-body">
-                    <p>Note: {{note}}</p>
-                    <p>Due: {{due}}</p>
-                    <p>Created: {{created}}</p>
+                    <div class="collapse" id="collapse{{id}}" aria-labelledby="heading{{id}}"
+                        data-parent="#taskAccordion">
+                        <div class="card-body">
+                            <p>Note: {{note}}</p>
+                            <p>Due: {{due}}</p>
+                            <p>Created: {{created}}</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            {{/each}}
+                {{/each}}
+
+                {{#each completedTodos}}
+                <div class="card">
+                    <div class="row completed-todos card-header" id="heading{{id}}">
+                        <div class="col-9 d-flex align-items-center" data-toggle="collapse"
+                            data-target="#collapse{{id}}" aria-expanded="false" aria-controls="collapse{{id}}">
+                            <form action="/delete" method="post">
+                                <p>{{task}}</p>
+                                <input hidden value="{{id}}" name="id" />
+                        </div>
+                        <div class="col-3 d-flex flex-row justify-content-end align-items-center">
+                            <button type="submit" class="btn btn-primary task-btn">X</button>
+                            </form>
+                            <form action="/uncomplete?redirect={{../redirect}}" method="post">
+                                <input hidden value="{{id}}" name="id" />
+                                <button type="submit" class="btn btn-danger task-btn">-</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="collapse" id="collapse{{id}}" aria-labelledby="heading{{id}}"
+                        data-parent="#taskAccordion">
+                        <div class="card card-body">
+                            <p>Note: {{note}}</p>
+                            <p>Due: {{due}}</p>
+                            <p>Created: {{created}}</p>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
             <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseTaskForm"
                 aria-expanded="false" aria-controls="collapseTaskForm">
                 Add task
@@ -100,7 +140,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <input class="form-control" type="datetime-local" name="due" placeholder="2018-06-12T19:30"
+                            <input class="form-control" type="datetime-local" name="due" value="2020-01-01T12:00"
                                 min="2018-06-07T00:00" max="2025-06-14T00:00">
                         </div>
                         <button class="form-control" type="submit">Add task</button>
