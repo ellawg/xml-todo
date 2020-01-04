@@ -23,6 +23,18 @@ header {
   margin: 0 5px 0 5px;
 }
 
-.card p {
+.card-header p {
   margin: 0;
+}
+
+.text-grey {
+  color: #696969;
+}
+
+.text-small {
+  font-size: 0.8em;
+}
+
+#calendar {
+  margin-right: 5px;
 }

@@ -95,7 +95,7 @@ const getTodos = async () => {
             .data()
             .created.toDate()
             .toUTCString()
-            .slice(0, 22),
+            .slice(0, 16),
           id: doc.id
         }
       });

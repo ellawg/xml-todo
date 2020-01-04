@@ -40,7 +40,7 @@
                         <div class="card card-body">
                             <form action="/addcategory" method="post">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="category"
+                                    <input required type="text" class="form-control" name="category"
                                         placeholder="Enter category name">
                                 </div>
                                 <button class="form-control" type="submit">Add category</button>
@@ -80,9 +80,10 @@
                     <div class="collapse" id="collapse{{id}}" aria-labelledby="heading{{id}}"
                         data-parent="#taskAccordion">
                         <div class="card-body">
-                            <p>Note: {{note}}</p>
-                            <p>Due: {{due}}</p>
-                            <p>Created: {{created}}</p>
+                            <p>{{note}}</p>
+                            <p class="text-grey"><i class="far fa-calendar" id="calendar"></i>
+                                {{due}}</p>
+                            <p class="text-grey text-small">Created {{created}}</p>
                         </div>
                     </div>
                 </div>
@@ -127,7 +128,7 @@
                 <div class="card card-body">
                     <form action="/add" method="post">
                         <div class="form-group">
-                            <input type="text" class="form-control" name="task" placeholder="add new task">
+                            <input required type="text" class="form-control" name="task" placeholder="add new task">
                         </div>
                         <div class="form-group">
                             <input type="text" name="note" class="form-control" placeholder="enter task note">
@@ -140,8 +141,9 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <input class="form-control" type="datetime-local" name="due" value="2020-01-01T12:00"
-                                min="2018-06-07T00:00" max="2025-06-14T00:00">
+                            <input required class="form-control" type="datetime-local" name="due"
+                                value="2020-01-01T12:00" min="2018-06-07T00:00" max="2025-06-14T00:00"
+                                pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}">
                         </div>
                         <button class="form-control" type="submit">Add task</button>
                     </form>
