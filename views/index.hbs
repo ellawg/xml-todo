@@ -1,0 +1,19 @@
+<data>
+    <todos>
+        {{#each todos}}
+        <todo id="{{id}}">
+            <task>{{task}}</task>
+            <note>{{note}}</note>
+            <categoryId>{{category}}</categoryId>
+            <due>{{due}}</due>
+            <created>{{created}}</created>
+            <completed>{{completed}}</completed>
+        </todo>
+        {{/each}}
+    </todos>
+    <categories>
+        {{#each categories}}
+        <category id="{{id}}">{{category}}</category>
+        {{/each}}
+    </categories>
+</data>

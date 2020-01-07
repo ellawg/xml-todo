@@ -124,7 +124,8 @@ app.get("/", async (req, res, next) => {
   // retrieve todos from the database
   const todos = await getTodos();
   let categories = await getCategories();
-  res.render("home", {
+  res.header("Content-Type", "text/xml");
+  res.render("index", {
     redirect: "/",
     active: "All Tasks",
     todos: todos.filter(item => !item.completed),
@@ -139,7 +140,8 @@ app.get("/categories/:id", async (req, res) => {
   const categories = await getCategories();
   const todosByCategory = todos.filter(item => item.category === req.params.id);
   const categoryName = helpers.getCategoryName(categories, req.params.id);
-  res.render("home", {
+  res.header("Content-Type", "text/xml");
+  res.render("index", {
     redirect: "/categories/" + req.params.id,
     active: helpers.capitalize(categoryName),
     todos: todosByCategory.filter(item => !item.completed),
@@ -156,7 +158,8 @@ app.get("/today", async (req, res) => {
     todo => todo.due.slice(5, 16) === todaysDate.slice(5, 16)
   );
   const categories = await getCategories();
-  res.render("home", {
+  res.header("Content-Type", "text/xml");
+  res.render("index", {
     redirect: "/today",
     active: "Today",
     todaysDate: todaysDate.slice(0, 16),
@@ -174,7 +177,7 @@ app.post("/add", async (req, res) => {
   } catch (error) {
     res.status(503).send(error.message);
   }
-  res.redirect("/"); // redirect to the home page
+  res.redirect("/"); // redirect to the index page
 });
 
 app.post("/addcategory", async (req, res) => {
