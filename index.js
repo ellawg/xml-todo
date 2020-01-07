@@ -204,7 +204,7 @@ app.post("/complete", async (req, res) => {
   } catch (error) {
     res.status(503).send(error.message);
   }
-  res.redirect(req.query.redirect);
+  res.redirect("/" /* req.query.redirect */);
 });
 
 app.post("/uncomplete", async (req, res) => {
@@ -213,7 +213,7 @@ app.post("/uncomplete", async (req, res) => {
   } catch (error) {
     res.status(503).send(error.message);
   }
-  res.redirect(req.query.redirect);
+  res.redirect("/" /* req.query.redirect */);
 });
 
 app.post("/deletecategory", async (req, res) => {

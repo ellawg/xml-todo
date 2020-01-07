@@ -11,6 +11,18 @@
         </todo>
         {{/each}}
     </todos>
+    <completed-todos>
+        {{#each completedTodos}}
+        <todo id="{{id}}">
+            <task>{{task}}</task>
+            <note>{{note}}</note>
+            <categoryId>{{category}}</categoryId>
+            <due>{{due}}</due>
+            <created>{{created}}</created>
+            <completed>{{completed}}</completed>
+        </todo>
+        {{/each}}
+    </completed-todos>
     <categories>
         {{#each categories}}
         <category id="{{id}}">{{category}}</category>
