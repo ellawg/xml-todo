@@ -1,7 +1,7 @@
 <data>
     <todos>
         {{#each todos}}
-        <todo id="{{id}}">
+        <todo id="{{id}}" redirect="{{../redirect}}">
             <task>{{task}}</task>
             <note>{{note}}</note>
             <categoryId>{{category}}</categoryId>
@@ -13,7 +13,7 @@
     </todos>
     <completed-todos>
         {{#each completedTodos}}
-        <todo id="{{id}}">
+        <todo id="{{id}}" redirect="{{../redirect}}">
             <task>{{task}}</task>
             <note>{{note}}</note>
             <categoryId>{{category}}</categoryId>

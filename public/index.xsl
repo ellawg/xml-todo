@@ -89,7 +89,7 @@
                           <input type="hidden" value="{@id}" name="id" />
                           <button type="submit" class="btn btn-primary task-btn">X</button>
                         </form>
-                        <form action="/complete" method="post">
+                        <form action="/complete?redirect={@redirect}" method="post">
                           <input type="hidden" value="{@id}" name="id" />
                           <button type="submit" class="btn btn-success task-btn">✓</button>
                         </form>
@@ -125,7 +125,7 @@
                           <input type="hidden" value="{@id}" name="id" />
                           <button type="submit" class="btn btn-primary task-btn">X</button>
                         </form>
-                        <form action="/uncomplete" method="post">
+                        <form action="/uncomplete?redirect={@redirect}" method="post">
                           <input type="hidden" value="{@id}" name="id" />
                           <button type="submit" class="btn btn-danger task-btn">↺</button>
                         </form>
