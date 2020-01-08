@@ -10,6 +10,7 @@
         <title>Task tracker</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
         <link href="/styles.css" rel="stylesheet" />
+        <script src="https://kit.fontawesome.com/4f2fc12906.js" crossorigin="anonymous"></script>
       </head>
 
       <body>
@@ -74,6 +75,15 @@
 
             <!-- content -->
             <div class="col-6">
+              <h2>
+                <xsl:value-of select="active"/>
+              </h2>
+              <h5>
+                <xsl:value-of select="todays-date"/>
+              </h5>
+              <xsl:if test="todos[not(*)]">
+                <h4>All tasks completed!</h4>
+              </xsl:if>
               <div class="accordion tasks" id="taskAccordion">
                 <!-- all todos -->
                 <xsl:for-each select="todos/todo">
@@ -101,8 +111,12 @@
                         <p>
                           <xsl:value-of select="note"/>
                         </p>
-                        <p class="text-grey">
-                          <i class="far fa-calendar" id="calendar"></i>
+                        <p class="text-grey d-flex flex-row align-items-center">
+                          <svg class="bi bi-calendar text-grey" id="calendar" width="1em" height="1em" viewBox="0 0 20 20" fill="currentColor" 
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M16 2H4a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2zM3 5.857C3 5.384 3.448 5 4 5h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H4c-.552 0-1-.384-1-.857V5.857z" clip-rule="evenodd"/>
+                            <path fill-rule="evenodd" d="M8.5 9a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+                          </svg>
                           <xsl:value-of select="due"/>
                         </p>
                         <p class="text-grey text-small">Created <xsl:value-of select="created"/>
@@ -137,8 +151,12 @@
                         <p>
                           <xsl:value-of select="note"/>
                         </p>
-                        <p class="text-grey">
-                          <i class="far fa-calendar" id="calendar"></i>
+                        <p class="text-grey d-flex flex-row align-items-center">
+                          <svg class="bi bi-calendar text-grey" id="calendar" width="1em" height="1em" viewBox="0 0 20 20" fill="currentColor" 
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M16 2H4a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2zM3 5.857C3 5.384 3.448 5 4 5h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H4c-.552 0-1-.384-1-.857V5.857z" clip-rule="evenodd"/>
+                            <path fill-rule="evenodd" d="M8.5 9a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+                          </svg>
                           <xsl:value-of select="due"/>
                         </p>
                         <p class="text-grey text-small">Created <xsl:value-of select="created"/>
@@ -185,7 +203,6 @@
 
           </div>
         </div>
-        <script src="https://kit.fontawesome.com/95c260002a.js" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
